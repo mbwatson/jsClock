@@ -3,7 +3,7 @@ let time = new Date();
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-	aClock = new analogClock(width/2, height/2, 0.95*width);
+	aClock = new analogClock(width/2, height/2, min(0.95*width, 0.95*height));
 	dClock = new digitalClock(width/2, (aClock.center.y + aClock.radius/2));
 }
 
