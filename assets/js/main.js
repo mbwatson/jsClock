@@ -1,10 +1,16 @@
 let aClock, dClock;
 let time = new Date();
 
+let globalFont;
+function preload() {
+  globalFont = loadFont('assets/fonts/Arvo-Regular.ttf');
+}
+
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	aClock = new analogClock(width/2, height/2, min(0.95*width, 0.95*height));
 	dClock = new digitalClock(width/2, (aClock.center.y + aClock.radius/2));
+  textFont(globalFont, 48);
 }
 
 function draw() {
@@ -40,7 +46,6 @@ class digitalClock {
 		fill(220);
 		noStroke();
 		textAlign(CENTER);
-		textSize(48);
 		text(hhmmss(12), this.x, this.y);
 	}
 }
