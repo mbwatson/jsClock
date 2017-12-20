@@ -50,12 +50,18 @@ class analogClock {
 		this.center = createVector(x, y);
 		this.diameter = diameter;
 		this.radius = diameter/2;
-		this.outlineWeight = 1;
+		this.outlineWeight = 10;
 		this.hourHand = new Hand(this.center, 0.70*this.radius, 0, 5);
 		this.minuteHand = new Hand(this.center, 0.9*this.radius, 63, 2);
-		this.secondHand = new Hand(this.center, 0.85*this.radius, 127, 1);
+		this.secondHand = new Hand(this.center, 0.85*this.radius, color(255,0,0), 1);
 	}
 	draw() {
+		// let milliseconds = time.getMilliseconds() // smooth
+		// let milliseconds = map(time.getMilliseconds(), 0, 1000, 0, 1) // hard tick
+		let milliseconds = lerp(0, 1000, (time.getMilliseconds()/1000)**3) // smoothish tick
+		let seconds = time.getSeconds() + milliseconds/1000
+		let minutes = time.getMinutes() + seconds/60
+		let hours = time.getHours() + minutes/60
 		stroke(0);
 		strokeWeight(this.outlineWeight);
 		noFill();
@@ -64,9 +70,9 @@ class analogClock {
 		fill(0);
 		ellipse(this.center.x, this.center.y, 0.02*this.diameter, 0.02*this.diameter);
 		this.drawTicks();
-		this.hourHand.update(map(time.getHours() % 12, 0, 12, 0, 2*PI) - PI/2);
-		this.minuteHand.update(map(time.getMinutes(), 0, 60, 0, 2*PI) - PI/2);
-		this.secondHand.update(map(time.getSeconds(), 0, 60, 0, 2*PI) - PI/2);
+		this.hourHand.update(map(hours % 12, 0, 12, 0, 2*PI) - PI/2);
+		this.minuteHand.update(map(minutes, 0, 60, 0, 2*PI) - PI/2);
+		this.secondHand.update(map(seconds, 0, 60, 0, 2*PI) - PI/2);
 		this.secondHand.draw();
 		this.minuteHand.draw();
 		this.hourHand.draw();
